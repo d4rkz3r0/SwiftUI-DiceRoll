@@ -9,30 +9,38 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    // Property Wrapper - @State
+    @State var leftDiceIndex = 1
+    @State var rightDiceIndex = 1
+
+    let imageIndexRange: ClosedRange = 1...6
+
     var body: some View {
         ZStack {
-            Image("background")
+            Image(Constants.backgroundImageName)
                 .resizable()
                 .edgesIgnoringSafeArea(.all)
             VStack {
-                Image("logo")
+                Image(Constants.logoImageName)
                 Spacer()
                 HStack {
-                    DiceView(imageIndex: "1")
-                    DiceView(imageIndex: "2")
+                    DiceView(imageIndex: "\(leftDiceIndex)")
+                    DiceView(imageIndex: "\(rightDiceIndex)")
                 }
                 .padding(.horizontal)
                 Spacer()
                 Button(action: {
-
+                    self.leftDiceIndex = Int.random(in: self.imageIndexRange)
+                    self.rightDiceIndex = Int.random(in: self.imageIndexRange)
                 }) {
-                    Text("ROLL!")
+                    Text(Constants.rollButtonTitleText)
                         .font(.system(size: 50))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                         .padding(.horizontal)
                 }.background(Color.red)
-
+                .cornerRadius(20.0)
             }
         }
     }
@@ -48,7 +56,7 @@ struct DiceView: View {
     let imageIndex: String
 
     var body: some View {
-        Image("dice\(imageIndex)")
+        Image("\(Constants.diceImageNamePrefix)\(imageIndex)")
             .resizable()
             .aspectRatio(1, contentMode: .fit)
             .padding()
